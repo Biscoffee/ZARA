@@ -15,7 +15,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIImage *searchIcon = [UIImage systemImageNamed:@"magnifyingglass"];
+    UIImage *searchIcon = [UIImage systemImageNamed:@"wo p d"];
     self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"发现"
                                                      image:searchIcon
                                              selectedImage:searchIcon];

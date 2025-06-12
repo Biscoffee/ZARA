@@ -62,14 +62,14 @@
     self.scrollView.contentOffset = CGPointMake(screenWidth, 0); // 起始页
     [verticalScrollView addSubview:self.scrollView];
 
-    // 添加 pageControl
     self.page = [[UIPageControl alloc] initWithFrame:CGRectMake(0, bannerHeight - 30, screenWidth, 30)];
     self.page.numberOfPages = 5;
     self.page.currentPage = 0;
     [verticalScrollView addSubview:self.page];
     [self.page addTarget:self action:@selector(pageChanged:) forControlEvents:UIControlEventValueChanged];
-    // 启动定时器
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoScroll) userInfo:nil repeats:YES];
+ 
+    self.timer = [NSTimer timerWithTimeInterval:5 target:self selector:@selector(autoScroll) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 
     // 左按钮
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -128,7 +128,8 @@
     self.smallPage.currentPage = 0;
     [verticalScrollView addSubview: self.smallPage];
     [self.smallPage addTarget:self action:@selector(smallPageChanged:) forControlEvents:UIControlEventValueChanged];
-    self.smallTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoScrollSmall) userInfo:nil repeats:YES];
+    self.smallTimer = [NSTimer timerWithTimeInterval:5 target:self selector:@selector(autoScrollSmall) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.smallTimer forMode:NSRunLoopCommonModes];
 
 }
 
@@ -160,7 +161,8 @@
     [self.smallScrollView setContentOffset:CGPointMake((page + 1) * width, 0) animated:YES];
     self.smallPage.currentPage = page;
     
-    self.smallTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoScrollSmall) userInfo:nil repeats:YES];
+    self.smallTimer = [NSTimer timerWithTimeInterval:5 target:self selector:@selector(autoScrollSmall) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.smallTimer forMode:NSRunLoopCommonModes];
 }
 
 
@@ -192,7 +194,8 @@
         }
     }
 
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoScroll) userInfo:nil repeats:YES];
+    self.timer = [NSTimer timerWithTimeInterval:5 target:self selector:@selector(autoScroll) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)autoScroll {

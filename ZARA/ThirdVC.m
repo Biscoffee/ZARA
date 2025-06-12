@@ -7,6 +7,7 @@
 
 #import "ThirdVC.h"
 #import "ProfileViewController.h"
+#import "UserManager.h"
 @interface ThirdVC ()
 @end
 
@@ -54,6 +55,21 @@
     NSLog(@"navigationController: %@", self.navigationController);
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // 更新用户数据
+    UserManager *user = [UserManager sharedManager];
+    for (UIView *subview in self.tableView.tableHeaderView.subviews) {
+        if ([subview isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)subview;
+            if ([label.text isEqualToString:@"欢迎"]) {
+                continue;
+            }
+            label.text = [NSString stringWithFormat:@"尊敬的%@顾客，您好", user.nickname ?: @"Miu Miu"];
+        }
+    }
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -73,10 +89,11 @@
     return cell;
 }
 
--(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     if (indexPath.row == 3) {
-        ProfileViewController* profileVC = [[ProfileViewController alloc] init];
+        ProfileViewController *profileVC = [[ProfileViewController alloc] init];
         [self.navigationController pushViewController:profileVC animated:YES];
     }
 }
