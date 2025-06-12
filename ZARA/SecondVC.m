@@ -15,7 +15,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIImage *searchIcon = [UIImage systemImageNamed:@"wo p d"];
+    UIImage *searchIcon = [UIImage systemImageNamed:@"magnifyingglass"];
     self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"发现"
                                                      image:searchIcon
                                              selectedImage:searchIcon];
@@ -60,7 +60,7 @@
         [self.scrollView addSubview:imgView];
     }
     
-    // 初始位置设为第一张实际图片
+    // 初始位置设为第一张实际图片，跳过第0张假图
     self.scrollView.contentOffset = CGPointMake(width, 0);
     
     // 创建定时器
@@ -70,10 +70,11 @@
                                                userInfo:nil
                                                 repeats:YES];
 }
-
+//自动滚动逻辑
 - (void)autoScroll {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x + width, 0) animated:YES];
+    //每次滚动一个图片宽度，有动画效果
 }
 
 - (void)segmentChanged:(UISegmentedControl *)sender {
@@ -86,17 +87,17 @@
     // 移动到目标位置（索引+1是因为第0页是假页面）
     [self.scrollView setContentOffset:CGPointMake(width * (index + 1), 0) animated:YES];
 }
-
+//动画滚动结束
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     [self updateSegControlFromScrollPosition]; // 更新分段控制器
     [self restartTimer]; // 重启定时器
 }
-
+//手动滑动结束
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     [self updateSegControlFromScrollPosition]; // 更新分段控制器
     [self restartTimer]; // 重启定时器
 }
-
+//拖动暂停定时器
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     // 拖动时停止定时器
     [self.timer invalidate];
@@ -117,7 +118,7 @@
     self.segControl.selectedSegmentIndex = page;
     self.page.currentPage = page;
 }
-
+//边界循环处理
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat offsetX = scrollView.contentOffset.x;

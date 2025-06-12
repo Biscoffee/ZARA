@@ -9,7 +9,7 @@
 // ProfileViewController.m
 #import "ProfileViewController.h"
 #import "ProfileEditViewController.h"
-#import "UserManager.h" // 导入UserManager
+#import "UserManager.h"
 
 @interface ProfileViewController ()
 @property (nonatomic, strong) NSArray *profileTitles;
@@ -44,7 +44,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"profileCell"];
     }
     
-    // 配置不同行的显示内容
     NSString *title = self.profileTitles[indexPath.row];
     cell.textLabel.text = title;
     
@@ -56,14 +55,12 @@
     switch (indexPath.row) {
         case 0: // 头像
         {
-            // 添加头像图片 - 使用UserManager中的头像
             UIImageView *avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
             avatarImageView.image = self.userManager.avatar;
             avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
             avatarImageView.layer.cornerRadius = 4.0;
             avatarImageView.clipsToBounds = YES;
             
-            // 设置accessoryView（右侧显示）
             cell.accessoryView = avatarImageView;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             break;
